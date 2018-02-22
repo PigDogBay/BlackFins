@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Blue color palette-->
+    <color name="colorPrimary">#2196F3</color> <!--A500-->
+    <color name="colorPrimaryDark">#1976D2</color> <!--A700-->
+    <color name="colorAccent">#FF4081</color>
+    <color name="blueA300">#64b5f6</color>
+    <color name="blueA400">#42a5f5</color>
+    <color name="blueA800">#1565c0</color>
+
+</resources>

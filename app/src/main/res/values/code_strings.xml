@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="key_pref_plc_ip_address">key_pref_plc_ip_address</string>
+    <string name="key_pref_plc_port">key_pref_plc_port</string>
+    <string name="key_pref_logging_update_frequency">key_pref_logging_update_frequency</string>
+
+
+</resources>
