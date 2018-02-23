@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/blackfins.iml" filepath="$PROJECT_DIR$/blackfins.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../../MPDBTech/MPDBLib/MPDBLib/lib/lib.iml" filepath="$PROJECT_DIR$/../../../MPDBTech/MPDBLib/MPDBLib/lib/lib.iml" />
     </modules>
   </component>
 </project>
