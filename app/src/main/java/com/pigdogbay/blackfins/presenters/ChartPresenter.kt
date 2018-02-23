@@ -1,8 +1,5 @@
 package com.pigdogbay.blackfins.presenters
 
-import android.graphics.PointF
-import com.github.mikephil.charting.data.Entry
-
 /**
  * Created by mark on 22/02/18.
  * Presenter and View interface for the Chart fragment
