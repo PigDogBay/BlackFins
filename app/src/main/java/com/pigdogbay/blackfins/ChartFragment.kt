@@ -25,6 +25,7 @@ class ChartFragment : Fragment(), IChartView {
     var primaryColor: Int = 0
     var primaryDarkColor: Int = 0
     var accentColor: Int = 0
+
     private lateinit var presenter: ChartPresenter
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
@@ -41,7 +42,6 @@ class ChartFragment : Fragment(), IChartView {
         presenter = ChartPresenter()
         presenter.view = this
         setUpChart()
-        createData()
     }
 
     override fun onResume() {
@@ -87,28 +87,10 @@ class ChartFragment : Fragment(), IChartView {
         leftAxis.axisMaximum = 100.0f
         leftAxis.axisMinimum = 0.0f
 
-
         chart.axisRight.isEnabled = false
-    }
 
-    private fun createData() {
-        val data = chart.data
-        val set = createSet()
-        data.addDataSet(set)
-        for (i in 0..300 step 10) {
-            val x = i.toFloat() + 1
-            val y = 80.0f - Math.min(80.0f, 2000.0f/x) + Math.random().toFloat()*3.0f
-            data.addEntry(Entry(x, y), 0)
-        }
-
-        val set2 = createSet2()
-        data.addDataSet(set2)
-        data.addEntry(Entry(0.0f,80.0f),1)
-        data.addEntry(Entry(300.0f,80.0f),1)
-
-        data.notifyDataChanged()
-        chart.notifyDataSetChanged()
-        chart.invalidate()
+        chart.data.addDataSet(createSet())
+        chart.data.addDataSet(createSet2())
     }
 
     private fun createSet(): LineDataSet {
@@ -144,19 +126,14 @@ class ChartFragment : Fragment(), IChartView {
         set.setDrawValues(false)
         return set
     }
-    override fun setTemperature(points: List<PointF>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
+    override fun addData(x: Float, y: Float, atSetIndex: Int) {
+        chart.data.addEntry(Entry(x,y),atSetIndex)
     }
 
-    override fun setRelativeHumidity(points: List<PointF>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun addTemperature(point: Float) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun addRelativeHumidity(point: Float) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun updateChart() {
+        chart.data.notifyDataChanged()
+        chart.notifyDataSetChanged()
+        chart.invalidate()
     }
 }
