@@ -11,5 +11,15 @@ interface ILiveDataView {
 class LiveDataPresenter {
     lateinit var view : ILiveDataView
 
+    fun onResume(){
+        view.setRelativeHumidity("42%")
+        //alt-gr + shift + 0  for °
+        view.setTemperature("83.9°C")
+    }
+
+    fun onPause(){
+
+    }
+
 
 }

@@ -1,6 +1,7 @@
 package com.pigdogbay.blackfins
 
 import android.graphics.Color
+import android.graphics.PointF
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
@@ -12,10 +13,11 @@ import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
+import com.pigdogbay.blackfins.presenters.ChartPresenter
+import com.pigdogbay.blackfins.presenters.IChartView
 import kotlinx.android.synthetic.main.fragment_chart.*
 
-class ChartFragment : Fragment() {
-
+class ChartFragment : Fragment(), IChartView {
     companion object {
         const val TAG = "chart"
     }
@@ -23,6 +25,7 @@ class ChartFragment : Fragment() {
     var primaryColor: Int = 0
     var primaryDarkColor: Int = 0
     var accentColor: Int = 0
+    private lateinit var presenter: ChartPresenter
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -34,8 +37,21 @@ class ChartFragment : Fragment() {
         primaryColor = ContextCompat.getColor(activity,R.color.colorPrimary)
         primaryDarkColor = ContextCompat.getColor(activity,R.color.colorPrimaryDark)
         accentColor = ContextCompat.getColor(activity,R.color.colorAccent)
+
+        presenter = ChartPresenter()
+        presenter.view = this
         setUpChart()
         createData()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        presenter.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        presenter.onPause()
     }
 
     private fun setUpChart() {
@@ -128,6 +144,19 @@ class ChartFragment : Fragment() {
         set.setDrawValues(false)
         return set
     }
+    override fun setTemperature(points: List<PointF>) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
+    override fun setRelativeHumidity(points: List<PointF>) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
+    override fun addTemperature(point: Float) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun addRelativeHumidity(point: Float) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }

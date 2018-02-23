@@ -14,4 +14,24 @@ class ConnectionPresenter {
 
     lateinit var view : IConnectionView
 
+    fun onResume(){
+        view.setStatus("Hello")
+        view.setConnectEnabled(true)
+        view.setDisconnectEnabled(false)
+    }
+
+    fun onPause(){
+
+    }
+
+    fun connect() {
+        view.setConnectEnabled(false)
+        view.setDisconnectEnabled(true)
+    }
+    fun disconnect() {
+        view.setConnectEnabled(true)
+        view.setDisconnectEnabled(false)
+    }
+
+
 }

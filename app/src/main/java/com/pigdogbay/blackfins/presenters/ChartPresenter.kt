@@ -14,4 +14,12 @@ interface IChartView {
 }
 class ChartPresenter {
     lateinit var view : IChartView
+
+    fun onResume(){
+
+    }
+
+    fun onPause(){
+
+    }
 }
