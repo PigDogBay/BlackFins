@@ -21,9 +21,9 @@ object Injector {
         if (isBuilt){
             return
         }
-
         preferencesHelper = PreferencesHelper(context.applicationContext)
         settings = Settings(preferencesHelper)
+        isBuilt = true
     }
 
     fun dispose(){
