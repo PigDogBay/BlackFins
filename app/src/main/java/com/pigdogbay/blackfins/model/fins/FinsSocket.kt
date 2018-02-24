@@ -1,5 +1,6 @@
 package com.pigdogbay.blackfins.model.fins
 
+import com.pigdogbay.blackfins.utils.toInetAddress
 import java.net.DatagramPacket
 import java.net.DatagramSocket
 import java.net.InetAddress
@@ -16,13 +17,7 @@ class FinsSocket {
 
     fun setAddress(ipAddress : String, port : Int){
         this.port = port
-        val parts = ipAddress.split(".")
-        val byteArray = ByteArray(4)
-        byteArray[0] = Integer.parseInt(parts[0]).toByte()
-        byteArray[1] = Integer.parseInt(parts[1]).toByte()
-        byteArray[2] = Integer.parseInt(parts[2]).toByte()
-        byteArray[3] = Integer.parseInt(parts[3]).toByte()
-        address = InetAddress.getByAddress(byteArray)
+        address = toInetAddress(ipAddress)
     }
 
     fun send(bytes : ByteArray) {
