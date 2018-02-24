@@ -31,6 +31,7 @@ object Injector {
         liveDataThread = LiveDataThread(liveDataSource, settings.userSettings)
         liveDataThread.start()
         liveDataLog = LiveDataLog(liveDataThread)
+        liveDataLog.startLogging()
         connection = Connection(liveDataThread)
 
         isBuilt = true

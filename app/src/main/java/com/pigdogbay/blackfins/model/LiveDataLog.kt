@@ -20,6 +20,10 @@ class LiveDataLog(val liveDataThread: LiveDataThread) : ILiveDataReceived {
         liveDataThread.removeObserver(this)
     }
 
+    val latest : LiveData?
+        get() = if (log.size==0) null else log.last()
+
+
     override fun onLiveDataReceived(liveData: LiveData) {
         log.add(liveData)
     }

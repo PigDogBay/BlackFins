@@ -1,10 +1,14 @@
 package com.pigdogbay.blackfins.model
 
+import java.util.*
+
 /**
  * Created by mark on 23/02/18.
  * Temperature in °C and relative humidity is %
  */
-data class LiveData(val temperature : Float, val temperatureSetpoint: Float, val relativeHumidity : Int, val relativeHumiditySetpoint: Int)
+data class LiveData(val temperature : Float, val temperatureSetpoint: Float, val relativeHumidity : Int, val relativeHumiditySetpoint: Int){
+    var date = Date()
+}
 
 /**
  * Observer interface for receiving live data updates
