@@ -6,20 +6,25 @@ import java.util.*
  * Created by mark on 23/02/18.
  * Logs Live Data
  */
-class LiveDataLog(val source : ILiveDataSource) : ILiveDataReceived {
-
+class LiveDataLog(val liveDataThread: LiveDataThread) : ILiveDataReceived {
     private val log =  Collections.synchronizedList(ArrayList<LiveData>())
+    private val errorLog =  Collections.synchronizedList(ArrayList<String>())
 
     fun getLog() : List<LiveData> = log
+    fun getErrorLog() : List<String> = errorLog
 
     fun startLogging(){
-        source.addObserver(this)
+        liveDataThread.addObserver(this)
     }
     fun stopLogging(){
-        source.removeObserver(this)
+        liveDataThread.removeObserver(this)
     }
 
     override fun onLiveDataReceived(liveData: LiveData) {
         log.add(liveData)
+    }
+
+    override fun onLiveDataError(message: String) {
+        errorLog.add(message)
     }
 }

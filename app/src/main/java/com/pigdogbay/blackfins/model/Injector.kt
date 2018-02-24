@@ -10,10 +10,11 @@ import com.pigdogbay.lib.utils.PreferencesHelper
  */
 object Injector {
 
-    lateinit var log : LiveDataLog
     @SuppressLint("StaticFieldLeak")
     lateinit var preferencesHelper: PreferencesHelper
     lateinit var settings: Settings
+    lateinit var liveDataThread: LiveDataThread
+    lateinit var liveDataLog: LiveDataLog
 
     private var isBuilt = false
 
@@ -23,10 +24,16 @@ object Injector {
         }
         preferencesHelper = PreferencesHelper(context.applicationContext)
         settings = Settings(preferencesHelper)
+        val liveDataSource = MockLiveDataSource()
+        liveDataThread = LiveDataThread(liveDataSource)
+        liveDataLog = LiveDataLog(liveDataThread)
+        liveDataThread.start()
+
         isBuilt = true
     }
 
     fun dispose(){
-
+        liveDataLog.stopLogging()
+        liveDataThread.dispose()
     }
 }
