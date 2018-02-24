@@ -2,7 +2,7 @@ package com.pigdogbay.blackfins.utils
 
 /**
  * Created by mark on 21/02/18.
- * Helper functions for ByteArray
+ * Miscellaneous functions for handling bytes
  */
 
 fun toByteArray(integers : List<Int>) : ByteArray {
@@ -28,4 +28,8 @@ fun print(byteArray: ByteArray,from : Int, upto : Int) : String{
         sb.append("%02X ".format(x))
     }
     return sb.toString()
+}
+
+fun convertBinaryCodedDecimal(bcd : Int) : Int{
+    return (bcd and 0x0f) + ((bcd shr 4) and 0x0f)*10 + ((bcd shr 8) and 0x0f)*100 + ((bcd shr 12) and 0x0f)*1000
 }

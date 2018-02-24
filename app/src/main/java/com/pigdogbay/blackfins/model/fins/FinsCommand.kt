@@ -1,5 +1,7 @@
 package com.pigdogbay.blackfins.model.fins
 
+import com.pigdogbay.blackfins.utils.convertBinaryCodedDecimal
+
 /**
  * Created by mark on 21/02/18.
  * FINS data structure
@@ -101,7 +103,8 @@ class FinsCommand {
     }
 
     fun getResponseWord() :Int{
-        return ((responseData?.get(0) ?: 0) shr 8) or (responseData?.get(1) ?: 0)
+        val r = ((responseData?.get(0) ?: 0) shl 8) + (responseData?.get(1) ?: 0)
+        return convertBinaryCodedDecimal(r)
     }
 
     var memoryAddress : String get() = "$registerAddress.$registerBitPosition"

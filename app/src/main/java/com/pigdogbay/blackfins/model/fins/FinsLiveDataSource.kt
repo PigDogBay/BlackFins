@@ -12,14 +12,11 @@ import java.io.InvalidObjectException
  */
 class FinsLiveDataSource(val finsSocket: FinsSocket) : ILiveDataSource{
 
-    val finsCmdTemperature : FinsCommand
+    private val finsCmdTemperature : FinsCommand = FinsCommandBuilder()
+            .atMemoryAddress("258")
+            .inMemoryArea(FinsMemoryArea.DMWord)
+            .build()
 
-    init {
-        finsCmdTemperature = FinsCommandBuilder()
-                .atMemoryAddress("258")
-                .inMemoryArea(FinsMemoryArea.DMWord)
-                .build()
-    }
     override fun getLiveData(): LiveData {
         val data = toByteArray(finsCmdTemperature.FinsDatagram)
         finsSocket.send(data)
@@ -28,8 +25,8 @@ class FinsLiveDataSource(val finsSocket: FinsSocket) : ILiveDataSource{
             throw InvalidObjectException("Unexpected response from the PLC")
         }
         var temperature = finsCmdTemperature.getResponseWord().toFloat()
-        temperature = temperature/100f
-        if (temperature>100f) temperature = 100f
+        //Temperature in 0.1°C
+        temperature = temperature/10.0f
         return LiveData(temperature,80f,0,0)
     }
 }
