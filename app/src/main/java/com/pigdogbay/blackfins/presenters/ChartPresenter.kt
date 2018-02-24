@@ -1,5 +1,10 @@
 package com.pigdogbay.blackfins.presenters
 
+import com.pigdogbay.blackfins.model.ILiveDataReceived
+import com.pigdogbay.blackfins.model.LiveData
+import com.pigdogbay.blackfins.model.LiveDataLog
+import com.pigdogbay.blackfins.model.LiveDataThread
+
 /**
  * Created by mark on 22/02/18.
  * Presenter and View interface for the Chart fragment
@@ -7,22 +12,45 @@ package com.pigdogbay.blackfins.presenters
 interface IChartView {
     fun addData(x : Float, y : Float, atSetIndex : Int)
     fun updateChart()
+    fun showError(message : String)
 }
-class ChartPresenter {
+class ChartPresenter(private val log: LiveDataLog, private val liveDataThread: LiveDataThread) : ILiveDataReceived {
     lateinit var view : IChartView
 
     fun onResume(){
-        for (i in 0..300 step 10) {
-            val x = i.toFloat() + 1
-            val y = 80.0f - Math.min(80.0f, 2000.0f/x) + Math.random().toFloat()*3.0f
-            view.addData(x,y,0)
-        }
-        view.addData(0.0f,80.0f,1)
-        view.addData(300.0f,80.0f,1)
-        view.updateChart()
+        liveDataThread.addObserver(this)
+        addExisitingData()
     }
 
     fun onPause(){
-
+        liveDataThread.removeObserver(this)
     }
+
+    private fun addExisitingData(){
+        var xvalue = 0.0f
+        for (ld in log.getLog()){
+            view.addData(xvalue,ld.temperature,0)
+            view.addData(xvalue,ld.temperatureSetpoint, 1)
+            xvalue++
+        }
+        //chart crashes if empty
+        if (log.getLog().size==0){
+            view.addData(0.0f,0.0f,0)
+            view.addData(0.0f,0.0f,1)
+        }
+        view.updateChart()
+    }
+
+    override fun onLiveDataReceived(liveData: LiveData) {
+        val xvalue = log.getLog().size.toFloat()
+        view.addData(xvalue,liveData.temperature,0)
+        view.addData(xvalue,liveData.temperatureSetpoint,1)
+        view.updateChart()
+    }
+
+    override fun onLiveDataError(message: String) {
+        view.showError(message)
+    }
+
+
 }

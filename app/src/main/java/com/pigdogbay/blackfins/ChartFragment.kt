@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
+import com.pigdogbay.blackfins.model.Injector
 import com.pigdogbay.blackfins.presenters.ChartPresenter
 import com.pigdogbay.blackfins.presenters.IChartView
 import kotlinx.android.synthetic.main.fragment_chart.*
@@ -38,7 +40,7 @@ class ChartFragment : Fragment(), IChartView {
         primaryDarkColor = ContextCompat.getColor(activity,R.color.colorPrimaryDark)
         accentColor = ContextCompat.getColor(activity,R.color.colorAccent)
 
-        presenter = ChartPresenter()
+        presenter = ChartPresenter(Injector.liveDataLog, Injector.liveDataThread)
         presenter.view = this
         setUpChart()
     }
@@ -127,12 +129,25 @@ class ChartFragment : Fragment(), IChartView {
     }
 
     override fun addData(x: Float, y: Float, atSetIndex: Int) {
-        chart.data.addEntry(Entry(x,y),atSetIndex)
+        chart.data.addEntry(Entry(x, y), atSetIndex)
     }
 
     override fun updateChart() {
-        chart.data.notifyDataChanged()
-        chart.notifyDataSetChanged()
-        chart.invalidate()
+        activity.runOnUiThread {
+            chart.data.notifyDataChanged()
+            chart.notifyDataSetChanged()
+            chart.invalidate()
+        }
     }
+
+    override fun showError(message: String) {
+        activity.runOnUiThread {
+            AlertDialog.Builder(activity)
+                    .setTitle("Connection Error")
+                    .setMessage("Unable to connect to the PLC due to: $message")
+                    .setNeutralButton("OK",null)
+                    .show()
+        }
+    }
+
 }
