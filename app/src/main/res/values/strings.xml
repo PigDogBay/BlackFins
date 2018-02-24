@@ -17,6 +17,7 @@
     <string name="pref_header_logging">Logging</string>
     <string name="pref_title_logging_frequency">Logging frequency</string>
     <string-array name="pref_logging_frequency_titles">
+        <item>1 seconds</item>
         <item>10 seconds</item>
         <item>30 seconds</item>
         <item>1 minute</item>
@@ -25,6 +26,7 @@
         <item>60 minutes</item>
     </string-array>
     <string-array name="pref_logging_frequency_values">
+        <item>1</item>
         <item>10</item>
         <item>30</item>
         <item>600</item>

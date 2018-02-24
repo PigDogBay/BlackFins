@@ -47,7 +47,7 @@ class LiveDataThread(private val liveDataSource: ILiveDataSource, private val us
         //keep updating
         if (isRunning) {
             val message = handler.obtainMessage(Companion.MESSAGE_GET_LIVE_DATA)
-            handler.sendMessageDelayed(message, userSettings.updateFrequency)
+            handler.sendMessageDelayed(message, userSettings.updateFrequency*1000L)
         }
     }
 
