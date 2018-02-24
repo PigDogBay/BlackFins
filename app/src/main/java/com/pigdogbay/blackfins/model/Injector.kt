@@ -2,6 +2,8 @@ package com.pigdogbay.blackfins.model
 
 import android.annotation.SuppressLint
 import android.content.Context
+import com.pigdogbay.blackfins.model.fins.FinsLiveDataSource
+import com.pigdogbay.blackfins.model.fins.FinsSocket
 import com.pigdogbay.lib.utils.PreferencesHelper
 
 /**
@@ -27,7 +29,11 @@ object Injector {
         settings = Settings(preferencesHelper)
         settings.updateUserSettings()
 
-        val liveDataSource = MockLiveDataSource()
+        //val liveDataSource = MockLiveDataSource()
+        val socket = FinsSocket()
+        socket.setAddress(settings.ipAddress, settings.port)
+        val liveDataSource = FinsLiveDataSource(socket)
+
         liveDataThread = LiveDataThread(liveDataSource, settings.userSettings)
         liveDataThread.start()
         liveDataLog = LiveDataLog(liveDataThread)
