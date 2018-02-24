@@ -8,7 +8,7 @@ import android.os.Message
  * Created by mark on 24/02/18.
  * Runs a worker thread generating computed data
  */
-class LiveDataThread(val liveDataSource: ILiveDataSource) : HandlerThread("MockData") {
+class LiveDataThread(private val liveDataSource: ILiveDataSource, private val userSettings: UserSettings) : HandlerThread("MockData") {
 
     companion object {
         private const val MESSAGE_GET_LIVE_DATA = 42
@@ -16,8 +16,6 @@ class LiveDataThread(val liveDataSource: ILiveDataSource) : HandlerThread("MockD
     private val listeners = ArrayList<ILiveDataReceived>()
     private var isRunning = false
     private lateinit var handler: Handler
-
-    var updateDelay = 1000L
 
     fun addObserver(observer: ILiveDataReceived) {
         listeners.add(observer)
@@ -42,7 +40,7 @@ class LiveDataThread(val liveDataSource: ILiveDataSource) : HandlerThread("MockD
 
     private fun postLiveDataUpdate(){
         val message = handler.obtainMessage(Companion.MESSAGE_GET_LIVE_DATA)
-        handler.sendMessageDelayed(message,updateDelay)
+        handler.sendMessageDelayed(message,userSettings.updateFrequency)
     }
 
     private fun runMessageGetLiveData(){

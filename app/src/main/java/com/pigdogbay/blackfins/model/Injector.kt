@@ -24,8 +24,10 @@ object Injector {
         }
         preferencesHelper = PreferencesHelper(context.applicationContext)
         settings = Settings(preferencesHelper)
+        settings.updateUserSettings()
+
         val liveDataSource = MockLiveDataSource()
-        liveDataThread = LiveDataThread(liveDataSource)
+        liveDataThread = LiveDataThread(liveDataSource, settings.userSettings)
         liveDataLog = LiveDataLog(liveDataThread)
         liveDataThread.start()
 
