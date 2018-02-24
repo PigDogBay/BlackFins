@@ -2,7 +2,7 @@ package com.pigdogbay.blackfins.utils
 
 /**
  * Created by mark on 21/02/18.
- * Help functions for ByteArray
+ * Helper functions for ByteArray
  */
 
 fun toByteArray(integers : List<Int>) : ByteArray {
@@ -19,4 +19,13 @@ fun toIntArray(byteArray: ByteArray) : List<Int> {
         list.add(b.toInt() and 0xff)
     }
     return list
+}
+
+fun print(byteArray: ByteArray,from : Int, upto : Int) : String{
+    val sb = StringBuilder()
+    for (i in from until upto){
+        val x = byteArray[i].toInt() and 0xff
+        sb.append("%02X ".format(x))
+    }
+    return sb.toString()
 }

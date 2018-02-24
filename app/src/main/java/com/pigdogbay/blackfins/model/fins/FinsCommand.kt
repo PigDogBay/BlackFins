@@ -16,6 +16,8 @@ class FinsCommand {
 
     companion object {
         private const val OFFSET_SERVICE_ID = 9
+        private const val OFFSET_MAIN_REQUEST_CODE = 10
+        private const val OFFSET_SUB_REQUEST_CODE = 11
         private const val OFFSET_MAIN_RESPONSE_CODE = 12
         private const val OFFSET_SUB_RESPONSE_CODE = 13
         private const val OFFSET_DATA = 14
@@ -37,8 +39,6 @@ class FinsCommand {
     var subRequestCode = 0
     var mainResponseCode = 0
     var subResponseCode = 0
-
-    var responseBound = false
 
     var memoryArea = FinsMemoryArea.CIOBit
     var registerAddress = 0 //16bit quantity
@@ -86,11 +86,10 @@ class FinsCommand {
         return finsMessage
     }
 
-
     private fun isMatchingResponse(datagram : List<Int>) : Boolean {
         return datagram[OFFSET_SERVICE_ID] == serviceId
-                && datagram[OFFSET_MAIN_RESPONSE_CODE] == mainRequestCode
-                && datagram[OFFSET_SUB_RESPONSE_CODE] == subRequestCode
+                && datagram[OFFSET_MAIN_REQUEST_CODE] == mainRequestCode
+                && datagram[OFFSET_SUB_REQUEST_CODE] == subRequestCode
     }
 
     fun parseFinsResponse(datagram : List<Int>) : Boolean{
