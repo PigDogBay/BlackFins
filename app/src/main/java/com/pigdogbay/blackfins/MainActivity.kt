@@ -88,7 +88,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onSharedPreferenceChanged(p0: SharedPreferences?, p1: String?) {
-        Injector.settings.updateUserSettings()
+        Injector.applySettings()
     }
 
 

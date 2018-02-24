@@ -29,22 +29,26 @@ object Injector {
         }
         preferencesHelper = PreferencesHelper(context.applicationContext)
         settings = Settings(preferencesHelper)
-        settings.updateUserSettings()
 
         //val liveDataSource = MockLiveDataSource()
         socket = FinsSocket()
-        socket.setAddress(settings.ipAddress, settings.port)
         val liveDataSource = FinsLiveDataSource(socket)
 
-        liveDataThread = LiveDataThread(liveDataSource, settings.userSettings)
+        liveDataThread = LiveDataThread(liveDataSource)
         liveDataThread.start()
         liveDataLog = LiveDataLog(liveDataThread)
         liveDataLog.startLogging()
         connection = Connection(liveDataThread)
 
+        applySettings()
+
         isBuilt = true
     }
 
+    fun applySettings(){
+        socket.setAddress(settings.ipAddress, settings.port)
+        liveDataThread.updateDelay = settings.updateFrequency*1000L
+    }
     fun dispose(){
         liveDataLog.stopLogging()
         liveDataThread.dispose()

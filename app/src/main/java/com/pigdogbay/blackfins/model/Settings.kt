@@ -7,14 +7,7 @@ import com.pigdogbay.lib.utils.PreferencesHelper
  * Created by mark on 23/02/18.
  * Handles Preference Settings
  */
-class UserSettings(){
-    var updateFrequency = 0L
-    var ipAddress  = ""
-    var port = 0
-}
 class Settings(val preferencesHelper: PreferencesHelper) {
-
-    var userSettings = UserSettings()
 
     var ipAddress : String
         get() = preferencesHelper.getString(R.string.key_pref_plc_ip_address, "192.168.0.200")
@@ -25,11 +18,5 @@ class Settings(val preferencesHelper: PreferencesHelper) {
     var updateFrequency : Long
         get() = preferencesHelper.getLong(R.string.key_pref_logging_update_frequency, 10L)
         set(value){preferencesHelper.setLong(R.string.key_pref_logging_update_frequency,value)}
-
-    fun updateUserSettings(){
-        userSettings.ipAddress = ipAddress
-        userSettings.port = port
-        userSettings.updateFrequency = updateFrequency
-    }
 
 }
