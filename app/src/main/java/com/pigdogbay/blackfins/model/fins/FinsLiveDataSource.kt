@@ -10,7 +10,7 @@ import java.io.InvalidObjectException
  * Created by mark on 24/02/18.
  * Communicates with PLC to get data for a LiveData object
  */
-class FinsLiveDataSource(val finsSocket: FinsSocket) : ILiveDataSource{
+class FinsLiveDataSource(val socket: ISocket) : ILiveDataSource{
 
     //2 byte reponse, BCD 0.1°C
     private val finsCmdTemperature : FinsCommand = FinsCommandBuilder()
@@ -43,8 +43,8 @@ class FinsLiveDataSource(val finsSocket: FinsSocket) : ILiveDataSource{
 
     private fun readTemperature() : Float {
         val data = toByteArray(finsCmdTemperature.FinsDatagram)
-        finsSocket.send(data)
-        val responseData = toIntArray(finsSocket.receive())
+        socket.send(data)
+        val responseData = toIntArray(socket.receive())
         if (!finsCmdTemperature.parseFinsResponse(responseData)){
             throw InvalidObjectException("Unexpected response reading temperature from the PLC")
         }
@@ -54,8 +54,8 @@ class FinsLiveDataSource(val finsSocket: FinsSocket) : ILiveDataSource{
 
     private fun readTemperatureSetpoint() : Float {
         val data = toByteArray(finsCmdTemperatureSetpoint.FinsDatagram)
-        finsSocket.send(data)
-        val responseData = toIntArray(finsSocket.receive())
+        socket.send(data)
+        val responseData = toIntArray(socket.receive())
         if (!finsCmdTemperatureSetpoint.parseFinsResponse(responseData)){
             throw InvalidObjectException("Unexpected response reading temperature setpoint from the PLC")
         }
@@ -65,8 +65,8 @@ class FinsLiveDataSource(val finsSocket: FinsSocket) : ILiveDataSource{
 
     private fun readRelativeHumidity() : Int {
         val data = toByteArray(finsCmdRelativeHumidity.FinsDatagram)
-        finsSocket.send(data)
-        val responseData = toIntArray(finsSocket.receive())
+        socket.send(data)
+        val responseData = toIntArray(socket.receive())
         if (!finsCmdRelativeHumidity.parseFinsResponse(responseData)){
             throw InvalidObjectException("Unexpected response reading rel humidity from the PLC")
         }
@@ -75,8 +75,8 @@ class FinsLiveDataSource(val finsSocket: FinsSocket) : ILiveDataSource{
 
     private fun readRelativeHumiditySetpoint() : Int {
         val data = toByteArray(finsCmdRelativeHumiditySetpoint.FinsDatagram)
-        finsSocket.send(data)
-        val responseData = toIntArray(finsSocket.receive())
+        socket.send(data)
+        val responseData = toIntArray(socket.receive())
         if (!finsCmdRelativeHumiditySetpoint.parseFinsResponse(responseData)){
             throw InvalidObjectException("Unexpected response reading rel humidity setpoint from the PLC")
         }
