@@ -15,6 +15,7 @@ object Injector {
     lateinit var settings: Settings
     lateinit var liveDataThread: LiveDataThread
     lateinit var liveDataLog: LiveDataLog
+    lateinit var connection: Connection
 
     private var isBuilt = false
 
@@ -28,8 +29,9 @@ object Injector {
 
         val liveDataSource = MockLiveDataSource()
         liveDataThread = LiveDataThread(liveDataSource, settings.userSettings)
-        liveDataLog = LiveDataLog(liveDataThread)
         liveDataThread.start()
+        liveDataLog = LiveDataLog(liveDataThread)
+        connection = Connection(liveDataThread)
 
         isBuilt = true
     }

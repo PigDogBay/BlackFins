@@ -14,8 +14,8 @@ class LiveDataThread(private val liveDataSource: ILiveDataSource, private val us
         private const val MESSAGE_GET_LIVE_DATA = 42
     }
     private val listeners = ArrayList<ILiveDataReceived>()
-    private var isRunning = false
     private lateinit var handler: Handler
+    private var isRunning = false
 
     fun addObserver(observer: ILiveDataReceived) {
         listeners.add(observer)
@@ -35,25 +35,19 @@ class LiveDataThread(private val liveDataSource: ILiveDataSource, private val us
                 }
             }
         }
-        postLiveDataUpdate()
-    }
-
-    private fun postLiveDataUpdate(){
-        val message = handler.obtainMessage(Companion.MESSAGE_GET_LIVE_DATA)
-        handler.sendMessageDelayed(message,userSettings.updateFrequency)
     }
 
     private fun runMessageGetLiveData(){
+        try {
+            val liveData = liveDataSource.getLiveData()
+            onNewLiveData(liveData)
+        } catch (e : Exception){
+            onError(e.message ?: "Error")
+        }
+        //keep updating
         if (isRunning) {
-            try {
-                val liveData = liveDataSource.getLiveData()
-                onNewLiveData(liveData)
-            } catch (e : Exception){
-                onError(e.message ?: "Error")
-            }
-
-            //keep updating
-            postLiveDataUpdate()
+            val message = handler.obtainMessage(Companion.MESSAGE_GET_LIVE_DATA)
+            handler.sendMessageDelayed(message, userSettings.updateFrequency)
         }
     }
 
@@ -68,19 +62,21 @@ class LiveDataThread(private val liveDataSource: ILiveDataSource, private val us
         }
     }
 
-    fun startUpdating(){
+    fun startMessaging(){
         isRunning = true
-        postLiveDataUpdate()
+        //start immediately
+        val message = handler.obtainMessage(Companion.MESSAGE_GET_LIVE_DATA)
+        handler.sendMessage(message)
+
     }
 
-    fun stopUpdating(){
-        handler.removeMessages(Companion.MESSAGE_GET_LIVE_DATA)
+    fun stopMessaging(){
         isRunning = false
-
+        handler.removeMessages(Companion.MESSAGE_GET_LIVE_DATA)
     }
 
     fun dispose() {
-        handler.removeMessages(Companion.MESSAGE_GET_LIVE_DATA)
+        stopMessaging()
         quit()
     }
 
