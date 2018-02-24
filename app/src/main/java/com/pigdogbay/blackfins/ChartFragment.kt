@@ -134,9 +134,11 @@ class ChartFragment : Fragment(), IChartView {
 
     override fun updateChart() {
         activity.runOnUiThread {
-            chart.data.notifyDataChanged()
-            chart.notifyDataSetChanged()
-            chart.invalidate()
+            if (chart!=null) {
+                chart.data.notifyDataChanged()
+                chart.notifyDataSetChanged()
+                chart.invalidate()
+            }
         }
     }
 

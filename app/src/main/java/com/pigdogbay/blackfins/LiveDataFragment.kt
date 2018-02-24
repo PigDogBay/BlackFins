@@ -1,8 +1,8 @@
 package com.pigdogbay.blackfins
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,20 +41,26 @@ class LiveDataFragment : Fragment(), ILiveDataView {
 
     override fun setLastUpdateTime(time: String) {
         activity.runOnUiThread {
-            textTimeStamp.text = time
+            if (textTimeStamp!=null) {
+                textTimeStamp.text = time
+            }
         }
     }
     override fun setTemperature(temperature: String, setpoint: String) {
         activity.runOnUiThread {
-            textTemperature.text = temperature
-            textTemperatureSetpoint.text = setpoint
+            if (textTemperature!=null && textTemperatureSetpoint!=null) {
+                textTemperature.text = temperature
+                textTemperatureSetpoint.text = setpoint
+            }
         }
     }
 
     override fun setRelativeHumidity(relHumidity: String, setpoint: String) {
         activity.runOnUiThread {
-            textRelHumidity.text = relHumidity
-            textHumiditySetpoint.text = setpoint
+            if (textRelHumidity!=null && textHumiditySetpoint!=null) {
+                textRelHumidity.text = relHumidity
+                textHumiditySetpoint.text = setpoint
+            }
         }
     }
 
