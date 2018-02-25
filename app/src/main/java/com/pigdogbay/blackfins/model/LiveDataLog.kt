@@ -20,6 +20,11 @@ class LiveDataLog(val liveDataThread: LiveDataThread) : ILiveDataReceived {
         liveDataThread.removeObserver(this)
     }
 
+    fun elapsedTime(liveData: LiveData) : Long {
+        return liveData.date.time - log[0].date.time
+    }
+
+
     val latest : LiveData?
         get() = if (log.size==0) null else log.last()
 

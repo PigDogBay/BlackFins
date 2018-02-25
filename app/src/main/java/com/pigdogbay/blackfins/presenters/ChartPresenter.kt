@@ -1,5 +1,6 @@
 package com.pigdogbay.blackfins.presenters
 
+import android.util.Log
 import com.pigdogbay.blackfins.model.ILiveDataReceived
 import com.pigdogbay.blackfins.model.LiveData
 import com.pigdogbay.blackfins.model.LiveDataLog
@@ -29,11 +30,8 @@ class ChartPresenter(private val log: LiveDataLog, private val liveDataThread: L
     private fun addExisitingData(){
         //can throw an exception if you flick back and forth quickly between screens
         try {
-            var xvalue = 0.0f
             for (ld in log.getLog()) {
-                view.addData(xvalue, ld.temperature, 0)
-                view.addData(xvalue, ld.temperatureSetpoint, 1)
-                xvalue++
+                addPoint(ld)
             }
             //chart crashes if empty
             if (log.getLog().size == 0) {
@@ -47,9 +45,7 @@ class ChartPresenter(private val log: LiveDataLog, private val liveDataThread: L
     }
 
     override fun onLiveDataReceived(liveData: LiveData) {
-        val xvalue = log.getLog().size.toFloat()
-        view.addData(xvalue,liveData.temperature,0)
-        view.addData(xvalue,liveData.temperatureSetpoint,1)
+        addPoint(liveData)
         view.updateChart()
     }
 
@@ -57,5 +53,10 @@ class ChartPresenter(private val log: LiveDataLog, private val liveDataThread: L
         view.showError(message)
     }
 
-
+    private fun addPoint(liveData: LiveData){
+        val elapsedTime = log.elapsedTime(liveData)/1000L
+        val xvalue = (elapsedTime.toFloat())/60f
+        view.addData(xvalue,liveData.temperature,0)
+        view.addData(xvalue,liveData.temperatureSetpoint,1)
+    }
 }
