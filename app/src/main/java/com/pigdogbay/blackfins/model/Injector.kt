@@ -39,15 +39,12 @@ object Injector {
         liveDataLog = LiveDataLog(liveDataThread)
         liveDataLog.startLogging()
         connection = Connection(liveDataThread)
-
-        applySettings()
-
         isBuilt = true
     }
 
     fun applySettings(){
         socket.setAddress(settings.ipAddress, settings.port)
-        liveDataThread.updateDelay = settings.updateFrequency*1000L
+        liveDataThread.updateDelay = settings.updateFrequency * 1000L
     }
     fun dispose(){
         liveDataLog.stopLogging()

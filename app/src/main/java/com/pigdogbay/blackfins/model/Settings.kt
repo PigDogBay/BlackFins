@@ -19,4 +19,10 @@ class Settings(val preferencesHelper: PreferencesHelper) {
         get() = preferencesHelper.getLong(R.string.key_pref_logging_update_frequency, 10L)
         set(value){preferencesHelper.setLong(R.string.key_pref_logging_update_frequency,value)}
 
+    fun resetToDefault(){
+        ipAddress = "192.168.0.200"
+        port = 9600
+        updateFrequency = 1
+    }
+
 }

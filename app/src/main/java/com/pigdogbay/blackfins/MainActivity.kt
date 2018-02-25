@@ -9,6 +9,7 @@ import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import com.pigdogbay.blackfins.model.Injector
@@ -23,6 +24,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setSupportActionBar(toolbar)
 
         Injector.create(this)
+        applySettings()
 
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -87,9 +89,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 .commit()
     }
 
-    override fun onSharedPreferenceChanged(p0: SharedPreferences?, p1: String?) {
-        Injector.applySettings()
+    private fun applySettings(){
+        try {
+            Injector.applySettings()
+        } catch (e : Exception){
+            Injector.settings.resetToDefault()
+            Injector.applySettings()
+            AlertDialog.Builder(this)
+                    .setTitle("Settings Error")
+                    .setMessage("Settings are badly formatted, resetting them")
+                    .setNeutralButton("OK",null)
+                    .show()
+        }
     }
 
-
+    override fun onSharedPreferenceChanged(p0: SharedPreferences?, p1: String?) {
+        applySettings()
+    }
 }
