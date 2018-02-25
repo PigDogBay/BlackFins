@@ -3,6 +3,7 @@ package com.pigdogbay.blackfins.model
 import android.os.Handler
 import android.os.HandlerThread
 import android.os.Message
+import java.net.SocketTimeoutException
 
 /**
  * Created by mark on 24/02/18.
@@ -42,7 +43,10 @@ class LiveDataThread(private val liveDataSource: ILiveDataSource) : HandlerThrea
         try {
             val liveData = liveDataSource.getLiveData()
             onNewLiveData(liveData)
+        }catch (stoe: SocketTimeoutException){
+            onError(stoe.message ?: "Timed Out - Check connection")
         } catch (e : Exception){
+            e.printStackTrace()
             onError(e.message ?: "Error")
         }
         //keep updating

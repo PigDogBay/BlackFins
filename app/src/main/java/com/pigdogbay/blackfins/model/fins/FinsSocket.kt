@@ -17,6 +17,11 @@ interface ISocket {
  */
 class FinsSocket : ISocket {
     var socket : DatagramSocket = DatagramSocket()
+
+    init {
+        socket.soTimeout=2000
+    }
+
     lateinit var address : InetAddress
     var port = 9600
     val byteArray = ByteArray(256)
