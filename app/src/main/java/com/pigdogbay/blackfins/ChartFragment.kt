@@ -143,13 +143,7 @@ class ChartFragment : Fragment(), IChartView {
     }
 
     override fun showError(message: String) {
-        activity.runOnUiThread {
-            AlertDialog.Builder(activity)
-                    .setTitle("Connection Error")
-                    .setMessage("Unable to connect to the PLC due to: $message")
-                    .setNeutralButton("OK",null)
-                    .show()
-        }
+        //do nothing
     }
 
 }
