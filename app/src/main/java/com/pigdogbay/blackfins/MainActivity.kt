@@ -59,6 +59,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_connection -> showConnection()
             R.id.nav_live_data -> showLiveData()
             R.id.nav_chart -> showChart()
+            R.id.nav_error_log -> showErrorLog()
             R.id.nav_settings -> showSettings()
         }
         drawer_layout.closeDrawer(GravityCompat.START)
@@ -76,6 +77,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun showChart(){
         title="Data Log"
         replaceMainFragment(ChartFragment(),ChartFragment.TAG)
+    }
+    private fun showErrorLog(){
+        title="Error Log"
+        replaceMainFragment(ErrorLogFragment(),ErrorLogFragment.TAG)
     }
     private fun showSettings(){
         val intent = Intent(applicationContext, SettingsActivity::class.java)

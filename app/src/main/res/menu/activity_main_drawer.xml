@@ -16,6 +16,10 @@
             android:id="@+id/nav_chart"
             android:icon="@drawable/ic_show_chart_black_24dp"
             android:title="Chart Log" />
+        <item
+            android:id="@+id/nav_error_log"
+            android:icon="@drawable/ic_warning_black_24dp"
+            android:title="Error Log" />
     </group>
 
     <item android:title="Misc">
