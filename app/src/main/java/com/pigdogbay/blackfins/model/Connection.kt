@@ -51,8 +51,10 @@ class Connection(val liveDataThread: LiveDataThread) : ILiveDataReceived {
     }
 
     override fun onLiveDataError(liveError: LiveError) {
-        liveDataThread.stopMessaging()
-        this.liveError = liveError
-        onStatusChanged(ConnectionStatus.CONNECTION_ERROR)
+        if (status == ConnectionStatus.CONNECTING) {
+            liveDataThread.stopMessaging()
+            this.liveError = liveError
+            onStatusChanged(ConnectionStatus.CONNECTION_ERROR)
+        }
     }
 }
