@@ -129,15 +129,23 @@ class ChartFragment : Fragment(), IChartView {
     }
 
     override fun addData(x: Float, y: Float, atSetIndex: Int) {
-        chart.data.addEntry(Entry(x, y), atSetIndex)
+        try {
+            chart.data.addEntry(Entry(x, y), atSetIndex)
+        } catch (e : Exception){
+            e.printStackTrace()
+        }
     }
 
     override fun updateChart() {
         activity.runOnUiThread {
             if (chart!=null) {
-                chart.data.notifyDataChanged()
-                chart.notifyDataSetChanged()
-                chart.invalidate()
+                try {
+                    chart.data.notifyDataChanged()
+                    chart.notifyDataSetChanged()
+                    chart.invalidate()
+                } catch (e: Exception){
+                    e.printStackTrace()
+                }
             }
         }
     }
