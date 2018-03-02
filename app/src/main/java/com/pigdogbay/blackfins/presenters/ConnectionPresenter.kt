@@ -60,7 +60,7 @@ class ConnectionPresenter(val connection: Connection) : IConnectionChangeListene
     override fun onConnectionChanged(connectionStatus: ConnectionStatus) {
         modelToView(connectionStatus)
         if (connectionStatus == ConnectionStatus.CONNECTION_ERROR){
-            view.showError(connection.error)
+            view.showError(connection.liveError.message)
         }
     }
 

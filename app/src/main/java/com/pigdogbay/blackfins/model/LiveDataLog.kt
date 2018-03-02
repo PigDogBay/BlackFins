@@ -8,10 +8,10 @@ import java.util.*
  */
 class LiveDataLog(val liveDataThread: LiveDataThread) : ILiveDataReceived {
     private val log =  Collections.synchronizedList(ArrayList<LiveData>())
-    private val errorLog =  Collections.synchronizedList(ArrayList<String>())
+    private val errorLog =  Collections.synchronizedList(ArrayList<LiveError>())
 
     fun getLog() : List<LiveData> = log
-    fun getErrorLog() : List<String> = errorLog
+    fun getErrorLog() : List<LiveError> = errorLog
 
     fun startLogging(){
         liveDataThread.addObserver(this)
@@ -33,7 +33,7 @@ class LiveDataLog(val liveDataThread: LiveDataThread) : ILiveDataReceived {
         log.add(liveData)
     }
 
-    override fun onLiveDataError(message: String) {
-        errorLog.add(message)
+    override fun onLiveDataError(liveError: LiveError) {
+        errorLog.add(liveError)
     }
 }

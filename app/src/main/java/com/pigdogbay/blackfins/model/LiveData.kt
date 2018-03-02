@@ -10,12 +10,16 @@ data class LiveData(val temperature : Float, val temperatureSetpoint: Float, val
     var date = Date()
 }
 
+data class LiveError(val message : String){
+    var date = Date()
+}
+
 /**
  * Observer interface for receiving live data updates
  */
 interface ILiveDataReceived {
     fun onLiveDataReceived(liveData: LiveData)
-    fun onLiveDataError(message : String)
+    fun onLiveDataError(liveError : LiveError)
 }
 
 /**

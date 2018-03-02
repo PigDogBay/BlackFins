@@ -1,9 +1,6 @@
 package com.pigdogbay.blackfins.presenters
 
-import com.pigdogbay.blackfins.model.ILiveDataReceived
-import com.pigdogbay.blackfins.model.LiveData
-import com.pigdogbay.blackfins.model.LiveDataLog
-import com.pigdogbay.blackfins.model.LiveDataThread
+import com.pigdogbay.blackfins.model.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -48,9 +45,7 @@ class LiveDataPresenter(private val log: LiveDataLog, private val liveDataThread
         liveDataToView(liveData)
     }
 
-    override fun onLiveDataError(message: String) {
-        view.showError(message)
+    override fun onLiveDataError(liveError: LiveError) {
+        view.showError(liveError.message)
     }
-
-
 }

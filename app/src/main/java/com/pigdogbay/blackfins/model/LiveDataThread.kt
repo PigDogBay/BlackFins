@@ -63,7 +63,7 @@ class LiveDataThread(private val liveDataSource: ILiveDataSource) : HandlerThrea
     }
     private fun onError(message : String){
         for (l in listeners){
-            l.onLiveDataError(message)
+            l.onLiveDataError(LiveError(message))
         }
     }
 

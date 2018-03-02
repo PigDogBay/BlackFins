@@ -19,7 +19,7 @@ class Connection(val liveDataThread: LiveDataThread) : ILiveDataReceived {
     }
 
     var status = ConnectionStatus.DISCONNECTED
-    var error = ""
+    var liveError : LiveError = LiveError("")
 
     fun addListener(listener: IConnectionChangeListener){
         listeners.add(listener)
@@ -50,9 +50,9 @@ class Connection(val liveDataThread: LiveDataThread) : ILiveDataReceived {
         if (status == ConnectionStatus.CONNECTING) onStatusChanged(ConnectionStatus.CONNECTED)
     }
 
-    override fun onLiveDataError(message: String) {
+    override fun onLiveDataError(liveError: LiveError) {
         liveDataThread.stopMessaging()
-        error = message
+        this.liveError = liveError
         onStatusChanged(ConnectionStatus.CONNECTION_ERROR)
     }
 }

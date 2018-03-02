@@ -1,10 +1,7 @@
 package com.pigdogbay.blackfins.presenters
 
 import android.util.Log
-import com.pigdogbay.blackfins.model.ILiveDataReceived
-import com.pigdogbay.blackfins.model.LiveData
-import com.pigdogbay.blackfins.model.LiveDataLog
-import com.pigdogbay.blackfins.model.LiveDataThread
+import com.pigdogbay.blackfins.model.*
 
 /**
  * Created by mark on 22/02/18.
@@ -49,8 +46,8 @@ class ChartPresenter(private val log: LiveDataLog, private val liveDataThread: L
         view.updateChart()
     }
 
-    override fun onLiveDataError(message: String) {
-        view.showError(message)
+    override fun onLiveDataError(liveError: LiveError) {
+        view.showError(liveError.message)
     }
 
     private fun addPoint(liveData: LiveData){
