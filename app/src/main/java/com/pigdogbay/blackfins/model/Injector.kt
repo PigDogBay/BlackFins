@@ -32,7 +32,7 @@ object Injector {
 
         //val liveDataSource = MockLiveDataSource()
         socket = FinsSocket()
-        val liveDataSource = FinsLiveDataSource(socket)
+        val liveDataSource = RetryLiveDataSource(FinsLiveDataSource(socket),3)
 
         liveDataThread = LiveDataThread(liveDataSource)
         liveDataThread.start()
